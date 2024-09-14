@@ -929,7 +929,7 @@ def tickPositions(self,Xupper, n = 30):
             if (j==len(Xupper)):
                 j=j-1
                 break
-        iX[i]=j
+        iX[i]=j-1
     return equalXs, iX.astype(int)
 
 
@@ -961,7 +961,7 @@ def __plotTOC(self,filename = '',title='default',Legend='TOC',kind='TOC',height=
     n = np.argmax(self.HpFA[self.iUnique][iX][1:]-self.HpFA[self.iUnique][iX][:-1])
     ax2.xaxis.set_major_locator(ticker.FixedLocator( self.HpFA[self.iUnique][iX][[0, n, n+1, -1]] ))
     ##Large ticks labels
-    prtdec=max(-np.log10(np.max(abs(equalXs)))+3,1)
+    prtdec=max(int(-np.log10(np.max(abs(equalXs))))+3,1)
     ax2.set_xticklabels(np.around(equalXs[[0, n, n+1, -1]],prtdec), rotation = 90)
     if ('intersections' in options):
         ax1.vlines(self.HpFA[self.iUnique][iX][[n, n+1]],0,self.np,linestyles='dotted',colors="tab:orange",alpha=0.5)
