@@ -952,6 +952,8 @@ def __plotTOC(self,filename = '',title='default',Legend='TOC',kind='TOC',height=
     ax2 = fig.add_subplot(111, label = "2", frame_on = False)
     #Small ticks positions at the secondary axis
     equalXs,iX = self.tickPositions(self.Thresholds[self.iUnique])
+    print(equalXs)
+    print(iX)
     ax2.set_xticks(self.HpFA[self.iUnique][iX])
     ax2.xaxis.set_minor_locator(ticker.FixedLocator(self.HpFA[self.iUnique][iX]))
 
@@ -959,7 +961,7 @@ def __plotTOC(self,filename = '',title='default',Legend='TOC',kind='TOC',height=
     n = np.argmax(self.HpFA[self.iUnique][iX][1:]-self.HpFA[self.iUnique][iX][:-1])
     ax2.xaxis.set_major_locator(ticker.FixedLocator( self.HpFA[self.iUnique][iX][[0, n, n+1, -1]] ))
     ##Large ticks labels
-    prtdec=max(-np.log10(np.max(abs(equalXs))),3)
+    prtdec=max(-np.log10(np.max(abs(equalXs)))+3,1)
     ax2.set_xticklabels(np.around(equalXs[[0, n, n+1, -1]],prtdec), rotation = 90)
     if ('intersections' in options):
         ax1.vlines(self.HpFA[self.iUnique][iX][[n, n+1]],0,self.np,linestyles='dotted',colors="tab:orange",alpha=0.5)
