@@ -952,8 +952,6 @@ def __plotTOC(self,filename = '',title='default',Legend='TOC',kind='TOC',height=
     ax2 = fig.add_subplot(111, label = "2", frame_on = False)
     #Small ticks positions at the secondary axis
     equalXs,iX = self.tickPositions(self.Thresholds[self.iUnique])
-    print(equalXs)
-    print(iX)
     ax2.set_xticks(self.HpFA[self.iUnique][iX])
     ax2.xaxis.set_minor_locator(ticker.FixedLocator(self.HpFA[self.iUnique][iX]))
 
