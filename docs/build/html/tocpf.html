@@ -1,0 +1,353 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Total-Operating-Characteristic Curve’s Probability Functions &#8212; TOCPF .alfa.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/cloud.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" href="./" type="text/css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+
+    
+    
+     
+        <script src="_static/cloud.base.js"></script>
+    
+
+    
+     
+        <script src="_static/cloud.js"></script>
+    
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Total-Operating-Characteristic Curve’s documentation" href="index.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head><body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Total-Operating-Characteristic Curve’s documentation"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">TOCPF .alfa.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Total-Operating-Characteristic Curve’s Probability Functions</a></li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="total-operating-characteristic-curve-s-probability-functions">
+<h1>Total-Operating-Characteristic Curve’s Probability Functions<a class="headerlink" href="#total-operating-characteristic-curve-s-probability-functions" title="Permalink to this headline">¶</a></h1>
+<p>This project consist of classes and methods to compute and plot a TOC curve, as well as the computation of probability functions suitable for analyzing the relationship between feature values and hits (true positives).
+The operations include, normalization, approximation by vectors (means of subsets of data).</p>
+<section id="tocpf-class">
+<h2>TOCPF class<a class="headerlink" href="#tocpf-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tocpf.TOCPF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tocpf.</span></span><span class="sig-name descname"><span class="pre">TOCPF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groundtruth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tocpf.TOCPF" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class implements the Total Operating Characteristic Curve computation and analysis using probability functions. That is to say, a cumulative distribution is derived from the TOC, then, a mass or density probability function is computed from it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rank</strong> – The class is instantiated with the optional parameter <code class="docutils literal notranslate"><span class="pre">rank</span></code> that is a numpy array of a predicting feature.</p></li>
+<li><p><strong>groundtruth</strong> – The class is instantiated with the optional parameter <code class="docutils literal notranslate"><span class="pre">groundtruth</span></code> that is a numpy array of binary labels (0,1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>kind</strong> – A string with the value ‘None’ by default, it indicates the kind of TOC, for instance: continuous, discrete, semicontinuous, or None for an empty TOC. A semicontinuous TOC is that with continuous disjoint segments.</p></li>
+<li><p><strong>area</strong> – The area under the curve of the TOC, in discrete cases it is the sum of heights. Notice that this area is not normalized neither is the rate of the parallelepiped.</p></li>
+<li><p><strong>areaRatio</strong> – The areaRation with respect to the parallelepiped area.</p></li>
+<li><p><strong>isorted</strong> – All the variables of indices start with an “i”, they could be either a true-false array (true in the selected indices), or an integer array. In this case this array stores the indices of the sorted rank, they are sorted from the minimum to the maximum.</p></li>
+<li><p><strong>ndata</strong> – All the sizing variables start with “n”, in this case, ndata is the total number of data, that is to say the “rank” and “groundtruth” sizes</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The class instance, if <code class="docutils literal notranslate"><span class="pre">rank</span></code> and <code class="docutils literal notranslate"><span class="pre">grountruth</span></code> are given it computes the TOC, otherwise it is an empty class.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">TOCPF</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="area">
+<h3>Area<a class="headerlink" href="#area" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.area">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">area</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.area" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="id1">area</span>
+under the curve of the TOC.</p>
+</dd></dl>
+
+</section>
+<section id="area-ratio">
+<h3>Area Ratio<a class="headerlink" href="#area-ratio" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.areaRatio">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">areaRatio</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.areaRatio" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="arearatio">areaRatio</span> with respect to the parallelepiped. The maximum TOC area is that of the parallelepiped, hence this is the ratio of the TOC area inside the parallelepiped divided by the parallelepiped area.
+Notice that the area inside the parallelepiped is usually different from the area under the curve, it is computed substracting from the <code class="docutils literal notranslate"><span class="pre">area</span></code> variable the triangle in the left side of the parallelepiped.</p>
+</dd></dl>
+
+</section>
+<section id="kind-of-toc-curve">
+<h3>Kind of TOC curve<a class="headerlink" href="#kind-of-toc-curve" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.kind">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">kind</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'None'</span></em><a class="headerlink" href="#tocpf.TOCPF.kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <span class="target" id="kind">kind</span> attribute indicates the type of TOC curve, that is to say, it is <strong>“TOC”</strong> kind if the <em>x</em> axes presents the true positives plus false positives count, and the <em>y</em> axes presents the true-positive count.
+It is a <strong>“vector””</strong> kind if the curve is a representation of the original TOC, that is to say it stores <em>nvector</em> vectorial means of the original TOC data.</p>
+</dd></dl>
+
+</section>
+<section id="indices-of-the-sorted-rank">
+<h3>Indices of the sorted rank<a class="headerlink" href="#indices-of-the-sorted-rank" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.isorted">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">isorted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.isorted" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <span class="target" id="isorted">isorted</span> attibute stores the indices fo the sorted rank. Storing the indices is useful to save computational time when converting a rank array to a probability value.</p>
+</dd></dl>
+
+</section>
+<section id="number-of-data">
+<h3>Number of data<a class="headerlink" href="#number-of-data" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.ndata">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">ndata</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.ndata" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="ndata">ndata</span> stores the number of data in the arrays of the class,  notice that the number of positives (<code class="docutils literal notranslate"><span class="pre">np</span></code>) or other counts are altered when interpolations, normalization or vectorization of the TOC is applied, while <code class="docutils literal notranslate"><span class="pre">ndata</span></code> stores the length of the data arrays independent of the mentioned counts.</p>
+</dd></dl>
+
+</section>
+<section id="number-of-positive-instances-presence">
+<h3>Number of positive instances (presence)<a class="headerlink" href="#number-of-positive-instances-presence" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.np">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">np</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.np" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="np">np</span> stores the number of positive data (1-labeled data, or data with presence of a characteristic).</p>
+</dd></dl>
+
+</section>
+<section id="number-of-coordinates-in-a-discretized-toc">
+<h3>Number of coordinates in a discretized TOC<a class="headerlink" href="#number-of-coordinates-in-a-discretized-toc" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.ndiscretization">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">ndiscretization</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.ndiscretization" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="ndiscretization">ndiscretization</span> is a number of segments lower or equal to the number of data, it is used to compute a TOC approximation for a better visualization fo the TOC changes with respect to the rank. If continuous the discrete TOC is used for deriving a density probability function.</p>
+</dd></dl>
+
+</section>
+<section id="array-of-hits-plus-false-alarms">
+<h3>Array of Hits plus False Alarms<a class="headerlink" href="#array-of-hits-plus-false-alarms" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.HpFA">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">HpFA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.HpFA" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="hpfa">HpFA</span> is a numpy array with the sum of Hits plus False Alarms.</p>
+</dd></dl>
+
+</section>
+<section id="array-of-hits">
+<h3>Array of Hits<a class="headerlink" href="#array-of-hits" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.Hits">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">Hits</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.Hits" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="hits">Hits</span> is a numpy array with the sum of true positives</p>
+</dd></dl>
+
+</section>
+<section id="thresholds-used-for-the-toc-computation">
+<h3>Thresholds used for the TOC computation<a class="headerlink" href="#thresholds-used-for-the-toc-computation" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.Thresholds">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">Thresholds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.Thresholds" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="thresholds">Thresholds</span> is a numpy array with thresholds of the TOC, they are computed using the ranks, that is to say, most of the times they are equal to the ranks.</p>
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Array of Hits plus False Alarms<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.dHpFA">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">dHpFA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.dHpFA" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="dhpfa">dHpFA</span> in a continuous TOC dHits stores an array of size <a class="reference internal" href="#ndiscretization">ndiscretization</a> that represents the TOC curve. Notice that, often, the TOC curve coordinates are computed at spacing of 1 in the Hits plus False Alarms axis, and 0 or 1 in the Hits axis, this leads to noisy estimations of the probability functions, hence the discretization stored in <a class="reference internal" href="#dhits">dHits</a> and <a class="reference internal" href="#dhpfa">dHpFA</a> is intended for less noisy but precise representations that is suitable for fine-grain meaningful computations, nevertheless, this represantation could be noisy for a visual analysis of the probability functions, hence, for visual analysis it is preferred to use the <a class="reference internal" href="#smoothhits">smoothHits</a> and <a class="reference internal" href="#smoothhpfa">smoothHpFA</a> representation.
+In a discrete TOC this array is the same that HpFA and stores all the discrete coordinates of the TOC.</p>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h3>Array of Hits<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.dHits">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">dHits</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.dHits" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="dhits">dHits</span> in a continuous TOC dHits stores an array of size <a class="reference internal" href="#ndiscretization">ndiscretization</a> that represents the TOC curve. Notice that, often, the TOC curve coordinates are computed at spacing of 1 in the Hits plus False Alarms axis, and 0 or 1 in the Hits axis, this leads to noisy estimations of the probability functions, hence the discretization stored in <a class="reference internal" href="#dhits">dHits</a> and <a class="reference internal" href="#dhpfa">dHpFA</a> is intended for less noisy but precise representations that is suitable for fine-grain meaningful computations, nevertheless, this represantation could be noisy for a visual analysis of the probability functions, hence, for visual analysis it is preferred to use the <a class="reference internal" href="#smoothhits">smoothHits</a> and <a class="reference internal" href="#smoothhpfa">smoothHpFA</a> representation.
+In a discrete TOC this array is the same that Hits and stores all the discrete coordinates of the TOC.</p>
+</dd></dl>
+
+</section>
+<section id="array-of-hits-plus-false-alarms-in-the-smoothed-toc">
+<h3>Array of Hits plus False Alarms in the smoothed TOC<a class="headerlink" href="#array-of-hits-plus-false-alarms-in-the-smoothed-toc" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.smoothHpFA">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">smoothHpFA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.smoothHpFA" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="smoothhpfa">smoothHpFA</span> in a continuous TOC dHits stores an array of size <a class="reference internal" href="#ndiscretization">ndiscretization</a> that represents the TOC curve. Notice that, often, the TOC curve coordinates are computed at spacing of 1 in the Hits plus False Alarms axis, and 0 or 1 in the Hits axis, this leads to noisy estimations of the probability functions, hence the discretization stored in <a class="reference internal" href="#dhits">dHits</a> and <a class="reference internal" href="#dhpfa">dHpFA</a> is intended for less noisy but precise representations that is suitable for fine-grain meaningful computations, nevertheless, this represantation could be noisy for a visual analysis of the probability functions, hence, for visual analysis it is preferred to use the <a class="reference internal" href="#smoothhits">smoothHits</a> and <a class="reference internal" href="#smoothhpfa">smoothHpFA</a> representation.
+In a discrete TOC this array is the same that HpFA and stores all the discrete coordinates of the TOC.</p>
+</dd></dl>
+
+</section>
+<section id="array-of-hits-in-the-smoothed-toc">
+<h3>Array of Hits in the smoothed TOC<a class="headerlink" href="#array-of-hits-in-the-smoothed-toc" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.smoothHits">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">smoothHits</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#tocpf.TOCPF.smoothHits" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="smoothhits">smoothHits</span> in a continuous TOC dHits stores an array of size <a class="reference internal" href="#ndiscretization">ndiscretization</a> that represents a <code class="docutils literal notranslate"><span class="pre">smoothed</span></code> or <code class="docutils literal notranslate"><span class="pre">regularized</span></code> TOC curve. Notice that, often, the TOC curve coordinates are computed at spacing of 1 in the Hits plus False Alarms axis, and 0 or 1 in the Hits axis, this leads to noisy estimations of the probability functions, hence the discretization stored in <a class="reference internal" href="#dhits">dHits</a> and <a class="reference internal" href="#dhpfa">dHpFA</a> is intended for less noisy but precise representations that is suitable for fine-grain meaningful computations, nevertheless, this representation could be noisy for a visual analysis of the probability functions, hence, for visual analysis it is preferred to use the <a class="reference internal" href="#smoothhits">smoothHits</a> and <a class="reference internal" href="#smoothhpfa">smoothHpFA</a> representation, that is intended for a noise-free visualization, obviously there is a payoff of regularizing the TOC, hence we suggest to prefer <a class="reference internal" href="#dhits">dHits</a> and <a class="reference internal" href="#dhpfa">dHpFA</a> for computations unless  you are aware of the information loss.
+In a discrete TOC this array is the same that Hits and stores all the discrete coordinates of the TOC. in a semicontinuous</p>
+</dd></dl>
+
+</section>
+<section id="presence-class-data-proportion">
+<h3>Presence-class data proportion<a class="headerlink" href="#presence-class-data-proportion" title="Permalink to this headline">¶</a></h3>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tocpf.TOCPF.PDataProp">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">PDataProp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#tocpf.TOCPF.PDataProp" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="pdataprop">PDataProp</span> is the proportion of positive (1-labeled)data in the data. The purpose is to maintain the proportion of class 1 data in TOC operations, hence to preserve the knowlkedege about data imbalance and proportion of classes even if the TOC is normalized.</p>
+</dd></dl>
+
+</section>
+<section id="constructor">
+<h3>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline">¶</a></h3>
+<dl class="py method">
+<dt class="sig sig-object py" id="tocpf.TOCPF.__init__">
+<span class="sig-prename descclassname"><span class="pre">TOCPF.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groundtruth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tocpf.TOCPF.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p><span class="target" id="init">__init__</span>
+Constructor of the TOC. Here the hits and false alarms are computed, as well as the kind (discrete, continuous, semicontinuous), the <a class="reference internal" href="#id1">Area</a>  and <a class="reference internal" href="#arearatio">areaRatio</a> according to the definition in the documentation.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="sphinx-toc sphinxlocaltoc">
+    <h3><a href="index.html">Page contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Total-Operating-Characteristic Curve’s Probability Functions</a><ul>
+<li><a class="reference internal" href="#tocpf-class">TOCPF class</a><ul>
+<li><a class="reference internal" href="#area">Area</a></li>
+<li><a class="reference internal" href="#area-ratio">Area Ratio</a></li>
+<li><a class="reference internal" href="#kind-of-toc-curve">Kind of TOC curve</a></li>
+<li><a class="reference internal" href="#indices-of-the-sorted-rank">Indices of the sorted rank</a></li>
+<li><a class="reference internal" href="#number-of-data">Number of data</a></li>
+<li><a class="reference internal" href="#number-of-positive-instances-presence">Number of positive instances (presence)</a></li>
+<li><a class="reference internal" href="#number-of-coordinates-in-a-discretized-toc">Number of coordinates in a discretized TOC</a></li>
+<li><a class="reference internal" href="#array-of-hits-plus-false-alarms">Array of Hits plus False Alarms</a></li>
+<li><a class="reference internal" href="#array-of-hits">Array of Hits</a></li>
+<li><a class="reference internal" href="#thresholds-used-for-the-toc-computation">Thresholds used for the TOC computation</a></li>
+<li><a class="reference internal" href="#id2">Array of Hits plus False Alarms</a></li>
+<li><a class="reference internal" href="#id3">Array of Hits</a></li>
+<li><a class="reference internal" href="#array-of-hits-plus-false-alarms-in-the-smoothed-toc">Array of Hits plus False Alarms in the smoothed TOC</a></li>
+<li><a class="reference internal" href="#array-of-hits-in-the-smoothed-toc">Array of Hits in the smoothed TOC</a></li>
+<li><a class="reference internal" href="#presence-class-data-proportion">Presence-class data proportion</a></li>
+<li><a class="reference internal" href="#constructor">Constructor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div class="sphinxprev">
+    <h4>Previous page</h4>
+    <p class="topless"><a href="index.html"
+                          title="Previous page">&larr; Total-Operating-Characteristic Curve’s documentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tocpf.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Total-Operating-Characteristic Curve’s documentation"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="index.html">TOCPF .alfa.0 documentation</a> &#187;</li>
+
+        <li class="nav-item nav-item-this"><a href="">Total-Operating-Characteristic Curve’s Probability Functions</a></li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2024, S. Ivvan Valdez.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>
