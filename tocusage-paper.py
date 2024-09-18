@@ -163,40 +163,6 @@ Tsim.plot(kind='PF-Presence|Rank',filename='sim-PF-Pres2Rank-slope.png',title='S
 
 
 
-importlib.reload(toc)
-feature=dataX.costo.to_numpy()
-T=toc.TOCPF(rank=feature,groundtruth=label)
-T.featureName='Traveling time to the city center'
-T.plot(filename='TOC-ttime.png',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['intersections'])
-#T.plot(kind='PF',filename='PF-ttime-before-smoothing.png',title='Probability Density Function cond. to Presence',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines','quartiles'])
-#T.plot(kind='DPF',filename='DPF-ttime-before-smoothing.png',title="First Derivative of the PDF",height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines'])
-T.plot(kind='CDF',filename='CDF-ttime.png',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8)
-T.plot(kind='PF',filename='PF-ttime.png',title='Probability Density Function cond. to Presence',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines','quartiles'])
-T.plot(kind='DPF',filename='DPF-ttime.png',title="First Derivative of the PDF",height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines'])
-T.plot(kind='smoothPF',filename='smoothPF-ttime.png',title='Density Probability Function cond. to Presence',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines','quartiles'])
-T.plot(kind='smoothDPF',filename='smoothDPF-ttime.png',title='Difference of the DPF cond. to Presence',height=plotheight,width=plotwidth,dpi=plotdpi,xlabel="default",ylabel="default",autodpi=False,labelsize=8,options=['vlines','quartiles'])
-
-
-prob=T.rank2prob(feature)
-T.rasterize(prob,lat,lon)
-T.plot(kind='raster',TOCname='Cond. Prob. of Traveling Time given Presence of ULC',filename='rasterP-ttime.png',height=plotheight,width=plotwidth,dpi=plotdpi)
-sim=T.simulate(feature,T.np)
-T.rasterize(sim,lat,lon)
-T.plot(kind='raster',TOCname='Simulation of ULC using prob. of Traveling Time',filename='rasterSim-ttime.png',height=plotheight,width=plotwidth,dpi=plotdpi,options=['binary'])
-probTravTime=prob
-
-prob=probDist2UL*probTravTime*probSlope
-T.rasterize(prob,lat,lon)
-T.plot(kind='raster',TOCname='',filename='rasterP-combined.png',height=plotheight,width=plotwidth,dpi=plotdpi)
-sim=T.simulate(feature,T.np)
-T.rasterize(sim,lat,lon)
-T.plot(kind='raster',TOCname='Simulation of ULC using combined prob',filename='rasterSim-combined.png',height=plotheight,width=plotwidth,dpi=plotdpi,options=['binary'])
-
-
-
-
-
-
 
 
 
@@ -209,7 +175,7 @@ T.plot(kind='raster',TOCname='Simulation of ULC using combined prob',filename='r
 feature=dataX.costo.to_numpy()
 importlib.reload(toc)
 tstart = time.time()
-T=toc.TOCPF(rank=feature,groundtruth=label,smoothingMethod='wmeans')
+T=toc.PATOC(rank=feature,groundtruth=label,smoothingMethod='wmeans')
 tend = time.time()
 print("Elapsed time for computing the TOC, find an adequate discretization, computing CDF,PF, DPF and their smoothed versions with moving windows:",tend-tstart, "seconds")
 
@@ -218,7 +184,7 @@ print("Elapsed time for computing the TOC, find an adequate discretization, comp
 ####################################################################
 ##--Time computation ANN--##
 tstart = time.time()
-T=toc.TOCPF(rank=feature,groundtruth=label,smoothingMethod='ANN')
+T=toc.PATOC(rank=feature,groundtruth=label,smoothingMethod='ANN')
 tend = time.time()
 print("Elapsed time for computing the TOC, find an adequate discretization, computing CDF,PF, DPF and their smoothed versions with ANN:",tend-tstart, "seconds")
 
